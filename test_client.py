@@ -2,7 +2,7 @@
 
 import unittest
 
-from junction_client import JunctionClient
+from junction import JunctionClient
 
 BASE_URL = 'http://junctiondemo.herokuapp.com'
 
