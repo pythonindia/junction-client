@@ -15,7 +15,7 @@ install:
 
 script:
 - flake8
-- py.test --cov=junction -v --tb=native junction
+- py.test --cov=junction -v --tb=native
 - coverage report -m
 
 after_success:
