@@ -87,7 +87,7 @@ class ScheduleMixin(object):
                 items = []
                 for session in timed_sessions:
                     items.append(self.validate_session(session))
-                schedule[date] = {timing: items}
+                schedule[date][timing] = items
         return schedule
 
     def validate_session(self, session):
