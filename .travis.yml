@@ -10,7 +10,7 @@ cache:
   - $HOME/.pip-cache/
 
 install:
-  - pip install -r requirements-dev.txt --allow-all-external --download-cache $HOME/.pip-cache
+  - pip install -r requirements-dev.txt
   - pip install coveralls
 
 script:
