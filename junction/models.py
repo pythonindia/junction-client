@@ -6,10 +6,14 @@ import collections
 from datetime import datetime
 
 from requests import Session
+from schematics.exceptions import ModelConversionError, ModelValidationError
+
 
 from .base import ReprMixin, RequestHandlerMixin
 from .serializers import FeedbackQuestionSerializer, ScheduleItemSerializer
 from .constants import URI_PARTS
+from .exceptions import ValidationException
+
 
 Room = collections.namedtuple('Room', 'id name venue note')
 
@@ -68,20 +72,32 @@ class ScheduleMixin(object):
     @property
     def schedule(self):
         data = self.make_request(URI_PARTS['schedule'].format(self.id))
+        return self.parse_schedule(data)
+
+    def parse_schedule(self, data):
         if data:
-            schedule = {}
-            for date, dated_session in data.items():
-                schedule[date] = {}
-                for timing, timed_sessions in dated_session.items():
-                    items = []
-                    for session in timed_sessions:
-                        session.pop('conference')
-                        item = ScheduleItemSerializer(session)
-                        item.validate()
-                        items.append(item)
-                    schedule[date] = {timing: items}
-            return schedule
+            return self.parse_session(data)
         return data
+
+    def parse_session(self, sessions):
+        schedule = {}
+        for date, dated_session in sessions.items():
+            schedule[date] = {}
+            for timing, timed_sessions in dated_session.items():
+                items = []
+                for session in timed_sessions:
+                    items.append(self.validate_session(session))
+                schedule[date] = {timing: items}
+        return schedule
+
+    def validate_session(self, session):
+        try:
+            session.pop('conference')
+            item = ScheduleItemSerializer(session)
+            item.validate()
+            return item
+        except (ModelConversionError, ModelValidationError) as e:
+            raise ValidationException(e.messages)
 
 
 class FeedbackMixin(object):
