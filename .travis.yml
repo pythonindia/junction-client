@@ -1,0 +1,27 @@
+language: python
+sudo: false
+python:
+- '2.7'
+- '3.4'
+- '3.5'
+
+cache:
+  directories:
+  - $HOME/.pip-cache/
+
+install:
+  - pip install -r requirements-dev.txt --allow-all-external --download-cache $HOME/.pip-cache
+  - pip install coveralls
+
+script:
+- flake8
+- py.test --cov -v --tb=native
+- coverage report -m
+
+after_success:
+  coveralls
+
+notifications:
+  email:
+    on_success: change  # [always|never|change]
+    on_failure: always  # [always|never|change]
