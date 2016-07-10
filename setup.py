@@ -21,7 +21,7 @@ setup(
     version=version,
     description='Python API client for junction',
     url='https://github.com/pythonindia/junction-client',
-    packages=['junction-client'],
+    packages=['junction'],
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
