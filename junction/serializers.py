@@ -7,21 +7,6 @@ from schematics.models import Model
 __all__ = ['FeedbackQuestionSerializer', 'ScheduleItemSerializer']
 
 
-class ReprMixin(object):
-
-    """Provides friendly `__repr__` method for all models to print
-       fields mentioned in `__repr_fields__`. Output format is:
-
-       <ModelName(field1=value,.., fieldN=value)>
-    """
-
-    def __repr__(self):
-        model_name = self.__class__.__name__
-        message = ', '.join("{}={}".format(field, getattr(self, field, None))
-                            for field in self.__repr_fields__)
-        return u"<{}({})>".format(model_name, message)
-
-
 class IdSerializer(Model):
     id = IntType()
 

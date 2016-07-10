@@ -6,10 +6,10 @@ import re
 
 from setuptools import setup
 
-
-with open(os.path.join(os.path.dirname(__file__), 'junction/__init__.py')) as f:
-    version = re.search("^__version__ = '(\d\.\d+\.\d+(\.?(dev|a|b|rc)\d?)?)'$",
-                  f.read(), re.M).group(1)
+pattern = "^__version__ = '(\d\.\d+\.\d+(\.?(dev|a|b|rc)\d?)?)'$"
+with open(os.path.join(os.path.dirname(__file__),
+                       'junction/__init__.py')) as f:
+    version = re.search(pattern, f.read(), re.M).group(1)
 
 requires = ['requests==2.9.1', 'schematics==2.0.0a1']
 test_requirements = requires + ['pytest==2.8.5']
@@ -26,7 +26,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',,
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
